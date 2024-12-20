@@ -33,10 +33,17 @@ public class StepDefination extends Utils {
 	
 
 @Given("Add Place Payload with {string}  {string} {string}")
-public void add_Place_Payload_with(String name, String language, String address) throws IOException {	
+public void add_Place_Payload_with(String name, String language, String address) throws Throwable {	
+		 if(getGlobalValue("payloadfetch").equalsIgnoreCase("jsonFile")) {
+			 res=given().log().all().spec(requestSpecification())
+						.body(updateReadJson("C:/Users/Admin/eclipse-workspace/RestApiProject/src/test/java/testData/JSONFiles/AddPlace.json", name, language, address ));
+		 }else if (getGlobalValue("payloadfetch").equalsIgnoreCase("excleFile")) {
+			 
+		 }else if (getGlobalValue("payloadfetch").equalsIgnoreCase("pojoClass")) {
+			 res=given().log().all().spec(requestSpecification())
+						.body(data.addPlacePayLoad(name,language,address));
+		 }
 		 
-		 res=given().spec(requestSpecification())
-		.body(data.addPlacePayLoad(name,language,address));
 	}
 
 @When("user calls {string} with {string} http request")
